@@ -52,6 +52,14 @@
                                                 <small>{{ $message }}</small>
                                             @enderror
                                         </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Logo</label>
+                                            <input type="file" class="form-control" id="exampleInputEmail1"
+                                                name="photo" value="{{ $monitoringData->image }}" >
+                                            @error('image')
+                                                <small>{{ $message }}</small>
+                                            @enderror
+                                        </div>
                                     <!-- /.card-body -->
 
                                     <div class="card-footer">

@@ -21,7 +21,7 @@
         <!-- /.content-header -->
         <section class="content">
             <div class="container-fluid">
-                <form action="{{ route('admin.monitoring.store') }}" method="POST">
+                <form action="{{ route('admin.monitoring.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <!-- left column -->
@@ -47,6 +47,15 @@
                                             <input type="text" class="form-control" id="exampleInputEmail1"
                                                 name="alamat_ip" placeholder="Masukkan ip address">
                                             @error('alamat_ip')
+                                                <small>{{ $message }}</small>
+                                            @enderror
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Logo</label>
+                                            <input type="file" class="form-control" id="exampleInputEmail1"
+                                                name="image" >
+                                            @error('image')
                                                 <small>{{ $message }}</small>
                                             @enderror
                                         </div>

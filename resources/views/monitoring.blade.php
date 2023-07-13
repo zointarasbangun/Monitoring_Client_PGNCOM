@@ -6,8 +6,10 @@
         <div class="content-header">
             <div class="container-fluid">
                 <div class="row mb-0">
-                    <div class="col-md-6">
+                    <div class="col-md-3">
                         <h5><b>Monitoring Customer</b></h5>
+                    </div>
+                    <div class="col-md-3">
                     </div>
                     <div class="col-md-6">
                         <h5> <b>Highlight PGNCOM</b></h5>
@@ -28,7 +30,7 @@
             <section class="content">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             @if (Auth::user()->role == 'admin')
                                 <a href="{{ route('admin.monitoring.create') }}" class="btn btn-primary mb-1"> Tambah
                                     Data</a>
@@ -71,7 +73,7 @@
                                             @else
                                                 @foreach ($monitoringData as $d)
                                                     <tr>
-                                                        <td></td>
+                                                        <td><img src="{{ asset('storage/photo-user/'.$d->image) }}" alt="" width="50"></td>
                                                         <td>{{ $d->nama }}</td>
                                                         <td id="status-{{ $d->id }}">
                                                             @if ($d->status == true)
@@ -143,7 +145,122 @@
                             </div>
                             <!-- /.card -->
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-3">
+                            @if (Auth::user()->role == 'admin')
+                                <a href="{{ route('admin.monitoring.create') }}" class="btn btn-primary mb-1"> Tambah
+                                    Data</a>
+                            @endif
+                            <div class="card">
+                                {{-- <div class="card-header">
+                                <div class="card-tools">
+                                    <div class="input-group input-group-sm" style="width: 150px;">
+                                        <input type="text" name="table_search" class="form-control float-right"
+                                            placeholder="Search">
+
+                                        <div class="input-group-append">
+                                            <button type="submit" class="btn btn-default">
+                                                <i class="fas fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> --}}
+                                <!-- /.card-header -->
+                                <div class="card-body table-responsive p-0">
+                                    <table class="table table-hover text-nowrap">
+                                        {{-- <thead>
+                                        <tr>
+                                            <th>Logo</th>
+                                            <th>Customer</th>
+                                            <th>Status</th>
+                                            @if (Auth::user()->role == 'admin')
+                                                <th>Ip address</th>
+                                                <th>Action</th>
+                                            @endif
+
+                                        </tr>
+                                    </thead> --}}
+                                        <tbody>
+                                            @if ($monitoringData->isEmpty())
+                                                <tr>
+                                                    <td colspan="6" class="text-center">Tidak ada data monitoring</td>
+                                                </tr>
+                                            @else
+                                                @foreach ($monitoringData as $d)
+                                                    <tr>
+                                                        <td><img src="{{ asset('storage/photo-user/'.$d->image) }}" alt="" width="50"></td>
+                                                        <td>{{ $d->nama }}</td>
+                                                        <td id="status-{{ $d->id }}">
+                                                            @if ($d->status == true)
+                                                                <span class="badge bg-success">
+                                                                    Terhubung
+                                                                </span>
+                                                            @else
+                                                                <span class="badge bg-danger">
+                                                                    Tidak Terhubung
+                                                                </span>
+                                                            @endif
+                                                        </td>
+                                                        @if (Auth::user()->role == 'admin')
+                                                            <td>{{ $d->alamat_ip }}</td>
+                                                            <td>
+                                                                <a href="{{ route('admin.monitoring.edit', ['id' => $d->id]) }}"
+                                                                    class="btn btn-primary"><i
+                                                                        class="fas fa-pen"></i>Edit</a>
+                                                                <a href="{{ route('admin.monitoring') }}"
+                                                                    data-toggle="modal"
+                                                                    data-target="#modal-hapus{{ $d->id }}"
+                                                                    class="btn btn-danger"><i
+                                                                        class="fas fa-trash-alt"></i>Hapus</i></a>
+                                                            </td>
+                                                        @endif
+                                                    </tr>
+                                                    <div class="modal fade" id="modal-hapus{{ $d->id }}">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h4 class="modal-title">Konfirmasi Hapus Data</h4>
+                                                                    <button type="button" class="close"
+                                                                        data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <p>Apakah anda yakin ingin menghapus data user
+                                                                        <b>{{ $d->name }}</b>
+                                                                    </p>
+                                                                </div>
+
+                                                                <div class="modal-footer justify-content-between">
+                                                                    <form
+                                                                        action="{{ route('admin.monitoring.delete', ['id' => $d->id]) }}"
+                                                                        method="POST">
+                                                                        @csrf
+                                                                        @method('DELETE')
+                                                                        <button type="button" class="btn btn-default"
+                                                                            data-dismiss="modal">Close</button>
+                                                                        <button type="submit" class="btn btn-primary">Ya,
+                                                                            Hapus
+                                                                            Data</button>
+                                                                    </form>
+
+                                                                </div>
+                                                            </div>
+                                                            <!-- /.modal-content -->
+                                                        </div>
+                                                        <!-- /.modal-dialog -->
+                                                    </div>
+                                                    <!-- /.modal -->
+                                                @endforeach
+                                            @endif
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                        <div class="col-md-5">
                             <!-- Kontainer slide gambar dan video -->
                             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                                 <ol class="carousel-indicators">

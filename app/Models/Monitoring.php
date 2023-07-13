@@ -19,7 +19,7 @@ class Monitoring extends Model
     protected $fillable = [
         'nama',
         'alamat_ip',
-        'last_checked'
+        'image',
     ];
 
     protected $table='monitoring';

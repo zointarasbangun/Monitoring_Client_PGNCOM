@@ -9,18 +9,20 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
-{
-    Schema::table('nama_tabel', function (Blueprint $table) {
-        $table->dropColumn('role');
-    });
-}
+    public function up(): void
+    {
+        Schema::table('monitoring', function (Blueprint $table) {
+            $table->string('image')->nullable()->after('alamat_ip');
+        });
+    }
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        //
+        Schema::table('monitoring', function (Blueprint $table) {
+            //
+        });
     }
 };

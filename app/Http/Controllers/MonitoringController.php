@@ -6,6 +6,7 @@ use App\Models\Monitoring;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class MonitoringController extends Controller
@@ -44,14 +45,21 @@ class MonitoringController extends Controller
         $validator = Validator::make($request->all(), [
             'nama' => 'required',
             'alamat_ip' => 'required',
+            'image'     =>'required|mimes:png,jpg,jpeg|max:2048',
         ]);
 
         if ($validator->fails())
             return redirect()->back()->withInput()->withErrors($validator);
 
+        $image      =$request->file('image');
+        $filename   =date('Y-m-d').$image->getClientOriginalName();
+        $path       ='photo-user/'.$filename;
+
+        Storage::disk('public')->put($path,file_get_contents($image));
+
         $monitoringData['nama'] = $request->nama;
         $monitoringData['alamat_ip'] = $request->alamat_ip;
-
+        $monitoringData['image']    =  $filename;
 
         Monitoring::create($monitoringData);
 
@@ -85,12 +93,14 @@ class MonitoringController extends Controller
         $validatedData = $request->validate([
             'nama' => 'required',
             'alamat_ip' => 'required',
+            'image' => 'required|mimes:png,jpg,jpeg|max:2048'
         ]);
 
         // Update data pada tabel
         $monitoringData = Monitoring::findOrFail($id);
         $monitoringData->nama = $validatedData['nama'];
         $monitoringData->alamat_ip = $validatedData['alamat_ip'];
+        $monitoringData->image = $validatedData['image'];
         $monitoringData->save();
 
         return redirect()->route('admin.monitoring')->with('success', 'Data monitoring berhasil diperbarui.');
