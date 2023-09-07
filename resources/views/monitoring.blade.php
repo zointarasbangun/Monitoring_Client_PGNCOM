@@ -11,9 +11,9 @@
                     </div>
                     <div class="col-md-3">
                     </div>
-                    <div class="col-md-6">
+                    {{-- <div class="col-md-6">
                         <h5> <b>Highlight PGNCOM</b></h5>
-                    </div>
+                    </div> --}}
 
                     <!-- /.col -->
                     {{-- <div class="col-sm-6">
@@ -30,7 +30,7 @@
             <section class="content">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                             @if (Auth::user()->role == 'admin')
                                 <a href="{{ route('admin.monitoring.create') }}" class="btn btn-primary mb-1"> Tambah
                                     Data</a>
@@ -51,7 +51,7 @@
                                 </div>
                             </div> --}}
                                 <!-- /.card-header -->
-                                <div class="card-body table-responsive p-0">
+                                <div class="card-body table-responsive p-0" style="max-height: 600px; overflow-y: auto;">
                                     <table class="table table-hover text-nowrap">
                                         {{-- <thead>
                                         <tr>
@@ -73,8 +73,8 @@
                                             @else
                                                 @foreach ($monitoringData as $d)
                                                     <tr>
-                                                        <td><img src="{{ asset('storage/photo-user/'.$d->image) }}" alt="" width="50"></td>
-                                                        <td>{{ $d->nama }}</td>
+                                                        <td><img src="{{ asset('storage/photo-user/'.$d->image) }}" alt="" width="30"></td>
+                                                        <td style="white-space: pre-wrap;">{{ $d->nama }}</td>
                                                         <td id="status-{{ $d->id }}">
                                                             @if ($d->status == true)
                                                                 <span class="badge bg-success">
@@ -145,10 +145,9 @@
                             </div>
                             <!-- /.card -->
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                             @if (Auth::user()->role == 'admin')
-                                <a href="{{ route('admin.monitoring.create') }}" class="btn btn-primary mb-1"> Tambah
-                                    Data</a>
+                                <a href="{{ route('admin.monitoring.create') }}" class="mb-1"></a>
                             @endif
                             <div class="card">
                                 {{-- <div class="card-header">
@@ -166,7 +165,7 @@
                                 </div>
                             </div> --}}
                                 <!-- /.card-header -->
-                                <div class="card-body table-responsive p-0">
+                                <div class="card-body table-responsive p-0" style="max-height: 600px; overflow-y: auto;">
                                     <table class="table table-hover text-nowrap">
                                         {{-- <thead>
                                         <tr>
@@ -188,8 +187,8 @@
                                             @else
                                                 @foreach ($monitoringData as $d)
                                                     <tr>
-                                                        <td><img src="{{ asset('storage/photo-user/'.$d->image) }}" alt="" width="50"></td>
-                                                        <td>{{ $d->nama }}</td>
+                                                        <td><img src="{{ asset('storage/photo-user/'.$d->image) }}" alt="" width="30"></td>
+                                                        <td style="white-space: pre-wrap;">{{ $d->nama }}</td>
                                                         <td id="status-{{ $d->id }}">
                                                             @if ($d->status == true)
                                                                 <span class="badge bg-success">
@@ -260,7 +259,7 @@
                             </div>
                             <!-- /.card -->
                         </div>
-                        <div class="col-md-5">
+                        {{-- <div class="col-md-5">
                             <!-- Kontainer slide gambar dan video -->
                             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                                 <ol class="carousel-indicators">
@@ -296,7 +295,7 @@
                                     <span class="sr-only">Next</span>
                                 </a>
                             </div>
-                        </div>
+                        </div> --}}
 
 
                         <style>
@@ -318,7 +317,7 @@
             <!-- /.content -->
         </div>
 
-        {{-- @section('js')
+        @section('js')
     <script>
         var data = @json($monitoringData);
         function tesPing(){
@@ -346,5 +345,5 @@
              // $("[id='status-25']").html("<span class='badge bg-success'>Terhubung</span>")
         })
     </script>
-    @stop --}}
+    @stop
     @endsection

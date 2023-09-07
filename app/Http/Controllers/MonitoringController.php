@@ -19,15 +19,15 @@ class MonitoringController extends Controller
         $monitoringData = Monitoring::all();
         //return $monitoringData;
 
-        foreach($monitoringData as $perangkat){
+        foreach ($monitoringData as $perangkat) {
             //tesping
             $hasil_test_ping = $this->tesPing($perangkat->alamat_ip);
             //masukkan hasil ke dalam array
             $perangkat->status = $hasil_test_ping;
-         }
+        }
 
-         return view('monitoring', compact('monitoringData'));
-}
+        return view('monitoring', compact('monitoringData'));
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -45,26 +45,35 @@ class MonitoringController extends Controller
         $validator = Validator::make($request->all(), [
             'nama' => 'required',
             'alamat_ip' => 'required',
-            'image'     =>'required|mimes:png,jpg,jpeg|max:2048',
+            'latitude' => ['required', 'regex:/^-?\d+(\.\d+)?$/'],
+            // Membolehkan angka dengan atau tanpa tanda minus dan desimal
+            'longitude' => ['required', 'regex:/^-?\d+(\.\d+)?$/'],
+            // Membolehkan angka dengan atau tanpa tanda minus dan desimal
+            'image' => 'required|mimes:png,jpg,jpeg|max:2048',
         ]);
 
         if ($validator->fails())
             return redirect()->back()->withInput()->withErrors($validator);
 
-        $image      =$request->file('image');
-        $filename   =date('Y-m-d').$image->getClientOriginalName();
-        $path       ='photo-user/'.$filename;
+        $image = $request->file('image');
+        $filename = date('Y-m-d') . $image->getClientOriginalName();
+        $path = 'photo-user/' . $filename;
 
-        Storage::disk('public')->put($path,file_get_contents($image));
+        Storage::disk('public')->put($path, file_get_contents($image));
 
-        $monitoringData['nama'] = $request->nama;
-        $monitoringData['alamat_ip'] = $request->alamat_ip;
-        $monitoringData['image']    =  $filename;
-
+        $monitoringData = [
+            'nama' => $request->nama,
+            'alamat_ip' => $request->alamat_ip,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
+            'image' => $filename,
+        ];
         Monitoring::create($monitoringData);
 
         return redirect()->route('admin.monitoring');
     }
+
+
 
     /**
      * Display the specified resource.
@@ -87,20 +96,46 @@ class MonitoringController extends Controller
     /**
      * Update the specified resource in storage.
      */
+    /**
+     * Update the specified resource in storage.
+     */
     public function update(Request $request, string $id)
     {
         // Validasi data yang dikirim dari form
         $validatedData = $request->validate([
             'nama' => 'required',
             'alamat_ip' => 'required',
-            'image' => 'required|mimes:png,jpg,jpeg|max:2048'
+            'latitude' => ['required', 'regex:/^-?\d+(\.\d+)?$/'],
+            // Membolehkan angka dengan atau tanpa tanda minus dan desimal
+            'longitude' => ['required', 'regex:/^-?\d+(\.\d+)?$/'],
+            // Membolehkan angka dengan atau tanpa tanda minus dan desimal
+            'image' => 'required|mimes:png,jpg,jpeg|max:2048',
         ]);
 
         // Update data pada tabel
         $monitoringData = Monitoring::findOrFail($id);
         $monitoringData->nama = $validatedData['nama'];
         $monitoringData->alamat_ip = $validatedData['alamat_ip'];
-        $monitoringData->image = $validatedData['image'];
+
+        // Pastikan latitude dan longitude ada dalam validatedData
+        if (array_key_exists('latitude', $validatedData)) {
+            $monitoringData->latitude = $validatedData['latitude'];
+        }
+
+        if (array_key_exists('longitude', $validatedData)) {
+            $monitoringData->longitude = $validatedData['longitude'];
+        }
+
+        // Update gambar/logo jika ada
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $filename = date('Y-m-d') . $image->getClientOriginalName();
+            $path = 'photo-user/' . $filename;
+
+            Storage::disk('public')->put($path, file_get_contents($image));
+            $monitoringData->image = $filename;
+        }
+
         $monitoringData->save();
 
         return redirect()->route('admin.monitoring')->with('success', 'Data monitoring berhasil diperbarui.');
@@ -114,7 +149,7 @@ class MonitoringController extends Controller
         $monitoring = Monitoring::findOrFail($id);
         $monitoring->delete();
 
-        if($monitoring){
+        if ($monitoring) {
             $monitoring->delete();
         }
 
@@ -129,28 +164,27 @@ class MonitoringController extends Controller
 
         // print_r($output);
 
-        if ($result ==0)
+        if ($result == 0)
 
-        return true;
-
+            return true;
         else
 
-        return false;
+            return false;
     }
 
-    public function tesPingAjax(Request $request){
+    public function tesPingAjax(Request $request)
+    {
 
 
-       exec("ping -n 1 " . $request->ip, $output, $result);
+        exec("ping -n 1 " . $request->ip, $output, $result);
 
-       // print_r($output);
+        // print_r($output);
 
-       if ($result ==0)
+        if ($result == 0)
 
-       return true;
+            return true;
+        else
 
-       else
-
-       return false;
+            return false;
     }
 }

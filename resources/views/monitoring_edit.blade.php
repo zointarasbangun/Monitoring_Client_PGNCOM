@@ -22,7 +22,8 @@
         <!-- /.content-header -->
         <section class="content">
             <div class="container-fluid">
-                <form action="{{ route('admin.monitoring.update',['id'=>$monitoringData->id]) }}" method="POST">
+                <form action="{{ route('admin.monitoring.update', ['id' => $monitoringData->id]) }}" method="POST"
+                    enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="row">
@@ -39,7 +40,9 @@
                                     <div class="card-body">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Nama pelanggan</label>
-                                            <input type="text" class="form-control" id="exampleInputEmail1" name="nama" value="{{ $monitoringData->nama }}" placeholder="Masukkan nama ">
+                                            <input type="text" class="form-control" id="exampleInputEmail1"
+                                                name="nama" value="{{ $monitoringData->nama }}"
+                                                placeholder="Masukkan nama ">
                                             @error('nama')
                                                 <small>{{ $message }}</small>
                                             @enderror
@@ -47,24 +50,48 @@
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Ip address</label>
                                             <input type="text" class="form-control" id="exampleInputEmail1"
-                                                name="alamat_ip" value="{{ $monitoringData->alamat_ip }}" placeholder="Masukkan ip address">
+                                                name="alamat_ip" value="{{ $monitoringData->alamat_ip }}"
+                                                placeholder="Masukkan ip address">
                                             @error('alamat_ip')
                                                 <small>{{ $message }}</small>
                                             @enderror
                                         </div>
                                         <div class="form-group">
+                                            <label for="exampleInputLatitude">Latitude</label>
+                                            <input type="text" class="form-control" id="exampleInputLatitude"
+                                                name="latitude" value="{{ $monitoringData->latitude }}">
+                                            @error('latitude')
+                                                <small>{{ $message }}</small>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputLongitude">Longitude</label>
+                                            <input type="text" class="form-control" id="exampleInputLongitude"
+                                                name="longitude" value="{{ $monitoringData->longitude }}">
+                                            @error('longitude')
+                                                <small>{{ $message }}</small>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
                                             <label for="exampleInputEmail1">Logo</label>
-                                            <input type="file" class="form-control" id="exampleInputEmail1"
-                                                name="photo" value="{{ $monitoringData->image }}" >
+                                            <input type="file" class="form-control" id="exampleInputFile" name="image">
                                             @error('image')
                                                 <small>{{ $message }}</small>
                                             @enderror
                                         </div>
-                                    <!-- /.card-body -->
+                                        <div class="form-group">
+                                            <label for="currentImage">Gambar saat ini</label>
+                                            <div>
+                                                <img src="{{ asset('storage/photo-user/' . $monitoringData->image) }}"
+                                                    alt="Current Image" style="max-width: 200px">
+                                            </div>
+                                        </div>
 
-                                    <div class="card-footer">
-                                        <button type="submit" class="btn btn-primary">Submit</button>
-                                    </div>
+                                        <!-- /.card-body -->
+
+                                        <div class="card-footer">
+                                            <button type="submit" class="btn btn-primary">UPDATE</button>
+                                        </div>
                                 </form>
                             </div>
                             <!-- /.card -->

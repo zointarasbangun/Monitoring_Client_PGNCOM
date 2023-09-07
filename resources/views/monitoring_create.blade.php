@@ -37,7 +37,8 @@
                                     <div class="card-body">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Nama pelanggan</label>
-                                            <input type="text" class="form-control" id="exampleInputEmail1" name="nama" placeholder="Masukkan nama ">
+                                            <input type="text" class="form-control" id="exampleInputEmail1"
+                                                name="nama" placeholder="Masukkan nama ">
                                             @error('nama')
                                                 <small>{{ $message }}</small>
                                             @enderror
@@ -52,18 +53,36 @@
                                         </div>
 
                                         <div class="form-group">
+                                            <label for="exampleInputLatitude">Latitude</label>
+                                            <input type="text" class="form-control" id="exampleInputLatitude"
+                                                name="latitude" placeholder="Masukkan Latitude">
+                                            @error('latitude')
+                                                <small>{{ $message }}</small>
+                                            @enderror
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="exampleInputLongitude">Longitude</label>
+                                            <input type="text" class="form-control" id="exampleInputLongitude"
+                                                name="longitude" placeholder="Masukkan Longitude">
+                                            @error('longitude')
+                                                <small>{{ $message }}</small>
+                                            @enderror
+                                        </div>
+
+                                        <div class="form-group">
                                             <label for="exampleInputEmail1">Logo</label>
-                                            <input type="file" class="form-control" id="exampleInputEmail1"
-                                                name="image" >
+                                            <input type="file" class="form-control" id="exampleInputFile"
+                                                name="image">
                                             @error('image')
                                                 <small>{{ $message }}</small>
                                             @enderror
                                         </div>
-                                    <!-- /.card-body -->
+                                        <!-- /.card-body -->
 
-                                    <div class="card-footer">
-                                        <button type="submit" class="btn btn-primary">Submit</button>
-                                    </div>
+                                        <div class="card-footer">
+                                            <button type="submit" class="btn btn-primary">SUBMIT</button>
+                                        </div>
                                 </form>
                             </div>
                             <!-- /.card -->

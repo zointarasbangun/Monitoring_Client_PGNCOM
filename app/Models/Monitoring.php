@@ -20,6 +20,8 @@ class Monitoring extends Model
         'nama',
         'alamat_ip',
         'image',
+        'latitude',
+        'longitude',
     ];
 
     protected $table='monitoring';
